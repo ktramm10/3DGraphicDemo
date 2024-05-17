@@ -2,26 +2,9 @@
 
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
+#include "Geometry.h"
+#include "Math.h"
 
-struct vec3d
-{
-	float x, y, z;
-};
-
-struct triangle
-{
-	vec3d p[3];
-};
-
-struct mesh
-{
-	std::vector<triangle> tris;
-};
-
-struct mat4x4
-{
-	float m[4][4] = { 0 };
-};
 
 class Example : public olc::PixelGameEngine
 {
@@ -31,52 +14,22 @@ public:
 		sAppName = "3D Engine";
 	}
 private:
-	mesh meshCube;
+	mesh meshShape;
+
 	mat4x4 matProj;
 
 	float fTheta;
+	float const observer_dist = 5.0f;
 
-	void MultiplyMatrixVector(vec3d &i, vec3d &o, mat4x4 &m)
-	{
-		o.x = i.x * m.m[0][0] + i.y * m.m[1][0] + i.z * m.m[2][0] + m.m[3][0];
-		o.y = i.x * m.m[0][1] + i.y * m.m[1][1] + i.z * m.m[2][1] + m.m[3][1];
-		o.z = i.x * m.m[0][2] + i.y * m.m[1][2] + i.z * m.m[2][2] + m.m[3][2];
-		float w = i.x * m.m[0][3] + i.y * m.m[1][3] + i.z * m.m[2][3] + m.m[3][3];
-
-		if (w != 0.0f)
-		{
-			o.x /= w; o.y /= w; o.z /= w;
-		}
-	}
 
 public:
 	bool OnUserCreate() override
 	{
-		meshCube.tris = {
-			// SOUTH
-			{0.0f, 0.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f, 0.0f },
-			{0.0f, 0.0f, 0.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f, 0.0f },
-
-			// EAST
-			{1.0f, 0.0f, 0.0f,   1.0f, 1.0f, 0.0f,   1.0f, 1.0f, 1.0f },
-			{1.0f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f, 1.0f },
-
-			// NORTH
-			{1.0f, 0.0f, 1.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f, 1.0f },
-			{1.0f, 0.0f, 1.0f,   0.0f, 1.0f, 1.0f,   0.0f, 0.0f, 1.0f },
-
-			// WEST
-			{0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 1.0f,   0.0f, 1.0f, 0.0f },
-			{0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 0.0f,   0.0f, 0.0f, 0.0f },
-
-			// TOP
-			{0.0f, 1.0f, 0.0f,    0.0f, 0.0f, 1.0f,   0.0f, 0.0f, 0.0f },
-			{0.0f, 1.0f, 0.0f,    1.0f, 1.0f, 1.0f,   1.0f, 1.0f, 0.0f },
-
-			// BOTTOM
-			{1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f,   0.0f, 0.0f, 0.0f },
-			{1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f,   1.0f, 0.0f, 0.0f },
-		};
+		// Initialize Mesh
+		
+		//InitializeMeshDiamond(meshShape, 2.0f);
+		InitializeMeshCube(meshShape, 2.0f);
+		//InitializeMeshPyramid(meshShape, 2.0f);
 		
 		// Projection Matrix
 		float fNear = 0.1f;
@@ -100,6 +53,7 @@ public:
 
 		// Setup Rotation Matrix
 		mat4x4 matRotZ, matRotX;
+		// Rotation speed
 		fTheta += 1.0f * fElapsedTime;
 
 		// Rotation Z
@@ -119,7 +73,7 @@ public:
 		matRotX.m[3][3] = 1;
 
 		// Draw Triangles
-		for (auto tri : meshCube.tris) {
+		for (auto tri : meshShape.tris) {
 			triangle triProjected, triTranslated, triRotatedZ, triRotatedZX;
 
 
@@ -135,9 +89,9 @@ public:
 
 			// Offset into the screen
 			triTranslated = triRotatedZX;
-			triTranslated.p[0].z = triRotatedZX.p[0].z + 3.0f;
-			triTranslated.p[1].z = triRotatedZX.p[1].z + 3.0f;
-			triTranslated.p[2].z = triRotatedZX.p[2].z + 3.0f;
+			triTranslated.p[0].z = triRotatedZX.p[0].z + observer_dist;
+			triTranslated.p[1].z = triRotatedZX.p[1].z + observer_dist;
+			triTranslated.p[2].z = triRotatedZX.p[2].z + observer_dist;
 
 			// Project triangles from 3D --> 2D
 			MultiplyMatrixVector(triTranslated.p[0], triProjected.p[0], matProj);
@@ -154,7 +108,6 @@ public:
 			triProjected.p[2].x += 1.0f;
 			triProjected.p[2].y += 1.0f;
 
-			// Changes position of the observer
 			triProjected.p[0].x *= 0.5f * (float)ScreenWidth();
 			triProjected.p[0].y *= 0.5f * (float)ScreenHeight();
 			triProjected.p[1].x *= 0.5f * (float)ScreenWidth();
