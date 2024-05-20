@@ -15,64 +15,16 @@ public:
 	}
 private:
 	mesh meshShape;
+	mesh meshShape_;
 
 	mat4x4 matProj;
 
 	float fTheta;
-	float const observer_dist = 5.0f;
+	float const observer_dist = 10.0f;
 
 
 public:
-	bool OnUserCreate() override
-	{
-		// Initialize Mesh
-		
-		//InitializeMeshDiamond(meshShape, 2.0f);
-		InitializeMeshCube(meshShape, 2.0f);
-		//InitializeMeshPyramid(meshShape, 2.0f);
-		
-		// Projection Matrix
-		float fNear = 0.1f;
-		float fFar = 1000.0f;
-		float fFov = 90.f;
-		float fAspectRatio = (float)ScreenHeight() / (float)ScreenWidth();
-		float fFovRad = 1.0f / tanf(fFov * 0.5f / 180.0f * 3.14159f);
-		matProj.m[0][0] = fAspectRatio * fFovRad;
-		matProj.m[1][1] = fFovRad;
-		matProj.m[2][2] = fFar / (fFar - fNear);
-		matProj.m[3][2] = (-fFar * fNear) / (fFar - fNear);
-		matProj.m[2][3] = 1.0f;
-		matProj.m[3][3] = 0.0f;
-
-		return true;
-	}
-
-	bool OnUserUpdate(float fElapsedTime) override {
-		// Clear Screen 
-		Clear(olc::BLACK);
-
-		// Setup Rotation Matrix
-		mat4x4 matRotZ, matRotX;
-		// Rotation speed
-		fTheta += 1.0f * fElapsedTime;
-
-		// Rotation Z
-		matRotZ.m[0][0] = cosf(fTheta);
-		matRotZ.m[0][1] = sinf(fTheta);
-		matRotZ.m[1][0] = -sinf(fTheta);
-		matRotZ.m[1][1] = cosf(fTheta);
-		matRotZ.m[2][2] = 1;
-		matRotZ.m[3][3] = 1;
-
-		// Rotation X
-		matRotX.m[0][0] = 1;
-		matRotX.m[1][1] = cosf(fTheta * 0.5f);
-		matRotX.m[1][2] = sinf(fTheta * 0.5f);
-		matRotX.m[2][1] = -sinf(fTheta * 0.5f);
-		matRotX.m[2][2] = cosf(fTheta * 0.5f);
-		matRotX.m[3][3] = 1;
-
-		// Draw Triangles
+	void DrawShapes(mesh& meshShape, mat4x4 matRotZ, mat4x4 matRotX) {
 		for (auto tri : meshShape.tris) {
 			triangle triProjected, triTranslated, triRotatedZ, triRotatedZX;
 
@@ -121,6 +73,41 @@ public:
 				triProjected.p[2].x, triProjected.p[2].y,
 				olc::PixelF(100, 0, 20));
 		}
+	}
+	bool OnUserCreate() override
+	{
+		// Initialize Mesh
+		
+		//InitializeMeshDiamond(meshShape, 2.0f);
+		InitializeMeshCube(meshShape, 2.0f, 2.0f, -5.0f);
+		InitializeMeshCube(meshShape_, 2.0f, 0.0f, 0.0f);
+		//InitializeMeshPyramid(meshShape, 2.0f);
+		
+		// Projection Matrix
+		float fNear = 0.1f;
+		float fFar = 1000.0f;
+		float fFov = 90.f;
+		float fAspectRatio = (float)ScreenHeight() / (float)ScreenWidth();
+		float fFovRad = 1.0f / tanf(fFov * 0.5f / 180.0f * 3.14159f);
+		matProj.m[0][0] = fAspectRatio * fFovRad;
+		matProj.m[1][1] = fFovRad;
+		matProj.m[2][2] = fFar / (fFar - fNear);
+		matProj.m[3][2] = (-fFar * fNear) / (fFar - fNear);
+		matProj.m[2][3] = 1.0f;
+		matProj.m[3][3] = 0.0f;
+
+		return true;
+	}
+
+	bool OnUserUpdate(float fElapsedTime) override {
+		// Clear Screen 
+		Clear(olc::BLACK);
+
+		// Setup Rotation Matrix
+		mat4x4 matRotZ, matRotX, reverseMatRotZ, reverseMatRotX;
+		fTheta = SetupRotationMatrices(matRotZ, matRotX, reverseMatRotZ, reverseMatRotX, fTheta, fElapsedTime);
+		DrawShapes(meshShape, matRotZ, matRotX);
+		DrawShapes(meshShape_, matRotZ, matRotX);
 		return true;
 	}
 };
