@@ -1,8 +1,11 @@
 ﻿  Source.cpp
-C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(73,43): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(73,22): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(72,43): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(72,22): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(71,55): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
-C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(71,34): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(66,43): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(66,22): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(65,43): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(65,22): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(64,55): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(64,34): warning C4244: 'argument': conversion from 'float' to 'int32_t', possible loss of data
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(29,41): warning C4101: 'triRotated': unreferenced local variable
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(84,55): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
+C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\3DGraphicsEngine\Source.cpp(84,40): warning C4244: 'argument': conversion from 'int32_t' to 'float', possible loss of data
   3DGraphicsEngine.vcxproj -> C:\Users\battl\OneDrive\Documents\GitHub\3DGraphicDemo\3DGraphicsEngine\x64\Debug\3DGraphicsEngine.exe

@@ -21,7 +21,8 @@ void InitializeMeshPyramid(mesh& meshPyramid, float const SIDE_LEN, float const 
 
 	};
 }
-void InitializeMeshCube(mesh& meshCube, float const SIDE_LEN, float const offsetX, float const offsetY) {
+void InitializeMeshCube(mesh& meshCube, float const SIDE_LEN, float const offsetX, float const offsetY, int rot) {
+	meshCube.rot = rot;
 	meshCube.tris = {
 		// SOUTH
 		{0.0f + offsetX, 0.0f + offsetY, 0.0f,   0.0f + offsetX, SIDE_LEN + offsetY, 0.0f,   SIDE_LEN + offsetX, SIDE_LEN + offsetY, 0.0f },
