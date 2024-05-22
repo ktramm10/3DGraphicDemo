@@ -4,6 +4,7 @@
 #include "olcPixelGameEngine.h"
 #include "Geometry.h"
 #include "Math.h"
+#include <string>
 
 
 class Example : public olc::PixelGameEngine
@@ -16,6 +17,7 @@ public:
 private:
 	mesh meshShape;
 	mesh meshShape_;
+	std::string sRot;
 
 	mat4x4 matProj;
 
@@ -65,6 +67,7 @@ public:
 				triProjected.p[1].x, triProjected.p[1].y,
 				triProjected.p[2].x, triProjected.p[2].y,
 				olc::PixelF(100, 0, 20));
+			
 		}
 	}
 
@@ -80,7 +83,8 @@ public:
 		* 5 = YZ
 		*/
 
-		InitializeMeshCube(meshShape_, 2.0f, 0.0f, 0.0f, 6);
+		InitializeMeshCube(meshShape_, 2.0f, 1.0f, 1.0f, 0);
+		sRot = DetermineTitle(meshShape_);
 		SetupProjMatrix(matProj, ScreenHeight(), ScreenWidth());
 		return true;
 	}
@@ -89,6 +93,9 @@ public:
 		// Clear Screen 
 
 		Clear(olc::BLACK);
+
+		// Draw Title
+		//DrawString(0, 5, sRot, olc::WHITE, 2);
 
 		// Setup Rotation Matrix
 

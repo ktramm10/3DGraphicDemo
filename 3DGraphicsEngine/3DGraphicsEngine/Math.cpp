@@ -1,6 +1,7 @@
 #include "Math.h"
 #include "olcPixelGameEngine.h"
 #include <vector>
+#include <stdexcept>
 
 void MultiplyMatrixVector(vec3d& i, vec3d& o, mat4x4& m)
 {
@@ -36,10 +37,10 @@ float SetupRotationMatrices(mat4x4& matRotZ, mat4x4& matRotX, mat4x4& matRotY, f
 
 		// Rotation X
 	matRotX.m[0][0] = 1;
-	matRotX.m[1][1] = cosf(fTheta * 0.5f);
-	matRotX.m[1][2] = sinf(fTheta * 0.5f);
-	matRotX.m[2][1] = -sinf(fTheta * 0.5f);
-	matRotX.m[2][2] = cosf(fTheta * 0.5f);
+	matRotX.m[1][1] = cosf(fTheta);
+	matRotX.m[1][2] = sinf(fTheta);
+	matRotX.m[2][1] = -sinf(fTheta);
+	matRotX.m[2][2] = cosf(fTheta);
 	matRotX.m[3][3] = 1;
 
 
@@ -127,6 +128,43 @@ mesh ApplyRotation(mat4x4 matRotX, mat4x4 matRotY, mat4x4 matRotZ, mesh meshShap
 		rotatedMesh.tris.push_back(finalTri);
 	}
 	return rotatedMesh;
+}
+/*
+*Rotation Key :
+*0 = X
+* 1 = Y
+* 2 = Z
+* 3 = XY
+* 4 = ZX
+* 5 = YZ
+*/
+
+std::string DetermineTitle(mesh meshShape)
+{
+	std::string result = "";
+	switch (meshShape.rot) {
+	case 0:
+		result = "Rotation About X ";
+		break;
+	case 1:
+		result = "Rotation About Y ";
+		break;
+	case 2:
+		result = "Rotation about Z ";
+		break;
+	case 3:
+		result = "Rotation about XY ";
+		break;
+	case 4:
+		result = "Rotation About ZX ";
+		break;
+	case 5:
+		result = "Rotation about YZ ";
+		break;
+	default:
+		throw std::invalid_argument("INVALID ROT VALUE.");
+	}
+	return result;
 }
 
 
